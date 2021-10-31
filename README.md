@@ -1,6 +1,6 @@
 # mike's desktop
 
-Source code, PKGBUILDs and configs for my desktop.
+Source code, configs and install scripts for my desktop.
 
 ## installation
 
