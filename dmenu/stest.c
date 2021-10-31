@@ -1,0 +1,1 @@
+/home/mike/bin/dmenu/stest.c

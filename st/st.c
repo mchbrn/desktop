@@ -1,0 +1,1 @@
+/home/mike/bin/st/st.c
