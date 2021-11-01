@@ -4,7 +4,7 @@ Source code, configs and install scripts for my desktop.
 
 ## installation
 
-Following a base install of Arch Linux, execute install.sh to build my desktop. The software is compatible with Intel integrated graphics and runs on my ThinkPad T420. Run `./install.sh` with sudo or as root.
+Following a base install of Arch Linux and chrooting into /mnt, running `./install.sh` builds my entire system.
 
 ## programs
 
