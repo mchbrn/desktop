@@ -9,8 +9,10 @@ set shiftwidth=4
 set expandtab
 set tabstop=4
 
+vnoremap <C-C> :w !xclip -i -sel c<CR><CR>
+
 " Copy between open files in vim
-set clipboard=unnamed
+set clipboard+=unnamedplus
 
 " VimWiki settings
 set nocompatible
