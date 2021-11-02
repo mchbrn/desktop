@@ -15,6 +15,7 @@ Following a base install of Arch Linux and chrooting into /mnt, running `./insta
 - launcher: dmenu
 - mail client: neomutt
 - music player: cmus
+- plugin manager: vim-plug
 - terminal emulator: st
 - text editor: neovim
 - video player: mplayer
