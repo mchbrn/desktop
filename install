@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# assumes you have chrooted into /mnt
+
+ln -sf /usr/share/zoneinfo/Eire /etc/localtime
+hwclock --systohc
+
+sed -i 's/#en_IE.UTF-8 UTF-8/en_IE.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+echo "LANG=en_IE.UTF-8" > /etc/locale.conf
+echo "KEYMAP=uk" > /etc/vconsole.conf
+echo "thinkpad" > /etc/hostname
+echo -e "127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\tthinkpad" > /etc/hosts
+
+pacman -S --noconfirm alsa-utils base-devel cmus doas efibootmgr feh firefox grub intel-ucode krita ksh man-db mplayer neomutt neovim networkmanager nitrogen nodejs openssh pdftk picom postgresql qutebrowser rtorrent rustup texlive-most tor wireshark xf86-video-intel xclip xdg-utils xorg xorg-xinit yay zathura zathura-pdf-mupdf zip
+
+yay -S --noconfirm lf qutebrowser reaper-bin vim-plug yt-dlp
+
+systemctl enable NetworkManager
+
+passwd
+
+mkdir /boot/efi/
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+useradd -m -G wheel,ftp,http,rfkill,uucp -s /bin/ksh mike,rfkill,uucp -s /bin/ksh mike
+
+echo -e 'permit persist :wheel\n' > /etc/doas.conf
+chown -c root:root /etc/doas.conf
+chmod -c 0400 /etc/doas.conf
+
+mkdir /home/mike/bin/
+
+# setup symlinks to originals
+# run make
+# run make install
+
+cp ./dmenu/ /home/mike/bin/
+cp ./dwm/ /home/mike/bin/
+cp ./st/ /home/mike/bin/
+
+cp ./config/.xinitrc /home/mike/.bashrc
+cp ./config/.bashrc /home/mike/.bashrc
+cp ./config/.bash_profile > /home/mike/.bash_profile
+
+mkdir /home/mike/.config
+cp -r ./config/nvim/ /home/mike/.config
+cp -r ./config/qutebrowser/ /home/mike/.config
+cp -r ./config/systemd/ /home/mike/.config
+
+mkdir /home/mike/doc/ /home/mike/img/ /home/mike/music/ /home/mike/video/ /home/mike/vimwiki/ /home/mike/workspace/
+
+xdg-settings set default-web-browser qutebrowser.desktop
+xdg-mime default qutebrowser.desktop x-scheme-handler/https x-scheme-handler/http
+
+cp /etc/X11/xinit/xinitrc /home/mike/.xinitrc
+
+sed -i 's/twm &//' /home/mike/.xinitrc
+sed -i 's/xclock -geometry 50x50-1+1 &//' /home/mike/.xinitrc
+sed -i 's/xterm -geometry 80x50+494+51 &//' /home/mike/.xinitrc
+sed -i 's/xterm -geometry 80x20+494-0 &//' /home/mike/.xinitrc
+sed -i 's/exec xterm -geometry 80x66+0+0 -name login//' /home/mike/.xinitrc
+
+echo -e 'nitrogen --restore &\npicome &\nexecdwm' >> .xinitrc
+
+echo 'set -o vi' >> .ksh.rc
+echo ' [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1' >> .kshrc
+echo 'export TERM=st' >> .kshrc
+echo 'export EDITOR=nvim' >> .kshrc
+
+#chsh -s /bin/ksh
+
+rustup toolchain install stable
+rustup default stable
