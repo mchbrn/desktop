@@ -1,6 +1,6 @@
-# mike's desktop
+# System
 
-Source code, configs and install scripts for my desktop.
+Source code, configs and install scripts for my system.
 
 ## installation
 

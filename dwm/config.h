@@ -34,12 +34,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class           instance           title           tags mask           isfloating           isterminal           noswallow           opacity            monitor */
-	{ "Gimp",          NULL,              NULL,           0,                  1,                   0,                   0,                  1.0,               -1 },
-	{ "Godot",         NULL,              NULL,           0,                  0,                   0,                   0,                  1.0,               -1 },
-	{ "MPlayer",       NULL,              NULL,           0,                  0,                   0,                   0,                  1.0,               -1 },
-	{ "st-256color",   NULL,              NULL,           0,                  0,                   1,                   0,                  defaultopacity,    -1 },
-	{ NULL,            NULL,              "Event Tester", 0,                  0,                   0,                   1,                  defaultopacity,    -1 },    /* xev */
+	/* class    instance    title    tags mask    isfloating    isterminal    noswallow    opacity    monitor     ignoretransient*/
+	{ "firefox",              NULL,    NULL,              0,    0,    0,    0,    defaultopacity,    -1,    0},
+	{ "Gimp",                 NULL,    NULL,              0,    1,    0,    0,    1.0,               -1,    0},
+	{ "Godot",                NULL,    NULL,              0,    0,    0,    0,    1.0,               -1,    0},
+	{ "jetbrains-idea-ce",    NULL,    NULL,              0,    0,    0,    1,    defaultopacity,    -1,    1},
+	{ "MPlayer",              NULL,    NULL,              0,    0,    0,    0,    1.0,               -1,    0},
+	{ "st-256color",          NULL,    NULL,              0,    0,    1,    0,    defaultopacity,    -1,    0},
+	{ NULL,                   NULL,    "Event Tester",    0,    0,    0,    1,    defaultopacity,    -1,    0},    /* xev */
 };
 
 /* St won't swallow things but uses defaultopacity*/
