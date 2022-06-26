@@ -1,0 +1,2 @@
+#!/bin/ksh
+feh --no-fehbg --bg-fill '/home/mike/img/wallpapers/dwm.jpg'

@@ -30,6 +30,8 @@ echo -e 'permit persist :wheel\n' > /etc/doas.conf
 chown -c root:root /etc/doas.conf
 chmod -c 0400 /etc/doas.conf
 
+cp config/fehbg /home/mike/.fehbg
+
 mkdir /home/mike/bin/
 
 # setup symlinks to originals
