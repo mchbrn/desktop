@@ -1,13 +1,13 @@
 set recolor
-set recolor-lightcolor "#1d2021"
+set recolor-lightcolor "#f2e5bc"
 set recolor-keephue
-set default-bg "#1d2021"
-set recolor-darkcolor "#ebdbb2"
+set default-bg "#f2e5bc"
+set recolor-darkcolor "#282828"
 set recolor-keephue
-set default-fg "#ebdbb2"
-set inputbar-bg "#ebdbb2"
-set inputbar-fg "#1d2021"
-set statusbar-bg "#1d2021"
-set statusbar-fg "#ebdbb2"
-set render-loading-bg "#1d2021"
-set render-loading-fg "#ebdbb2"
+set default-fg "#282828"
+set inputbar-bg "#282828"
+set inputbar-fg "#f2e5bc"
+set statusbar-bg "#f2e5bc"
+set statusbar-fg "#282828"
+set render-loading-bg "#f2e5bc"
+set render-loading-fg "#282828"
