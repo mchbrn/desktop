@@ -4,7 +4,7 @@ Source code, configs and install scripts for my system.
 
 ## installation
 
-Following a base install of Arch Linux and chrooting into /mnt, running `./install.sh` builds my entire system.
+Following a base install of Arch Linux and chrooting into /mnt, running `./install` builds my entire system.
 
 ## programs
 
