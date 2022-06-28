@@ -1,10 +1,10 @@
 # System
 
-Source code, configs and install scripts for my system.
+Source code, configs and install scripts for my system. The aesthetic for this rice was stolen from [@marcothms](https://github.com/marcothms) as seen on [unixporn](https://old.reddit.com/r/unixporn/comments/nths26/dwm_cs_student_went_light_mode/).
 
 ## installation
 
-Following a base install of Arch Linux and chrooting into /mnt, running `./install.sh` builds my entire system.
+Following a base install of Arch Linux and chrooting into /mnt, running `./install` builds my entire system.
 
 ## programs
 
