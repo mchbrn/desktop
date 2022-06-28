@@ -1,0 +1,9 @@
+[[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1
+
+set -o vi
+setxkbmap gb
+
+export TERM=st
+export EDITOR=nvim
+
+alias q='rlwrap q'
