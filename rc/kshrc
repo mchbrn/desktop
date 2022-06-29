@@ -3,7 +3,10 @@
 set -o vi
 setxkbmap gb
 
-export TERM=st
+PS1="[1;33;48m[[1;36;48mmike[0;0m[1;33;48m@[0;0m[1;32;48mthinkpad[1;33;48m][0;0m "
+
+export BROWSER=qutebrowser
 export EDITOR=nvim
+export TERM=st
 
 alias q='rlwrap q'

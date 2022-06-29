@@ -54,4 +54,5 @@ wmname LG3D
 
 ~/.fehbg &
 picom &
+dwmblocks &
 exec dwm

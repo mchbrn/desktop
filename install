@@ -12,7 +12,7 @@ echo "KEYMAP=uk" > /etc/vconsole.conf
 echo "thinkpad" > /etc/hostname
 echo -e "127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\tthinkpad" > /etc/hosts
 
-pacman -S --noconfirm alsa-utils base-devel cmus doas efibootmgr feh firefox grub intel-ucode krita ksh man-db mplayer neomutt neovim networkmanager nitrogen nodejs openssh pdftk picom postgresql qutebrowser rtorrent rustup texlive-most tor wireshark xf86-video-intel xclip xdg-utils xorg xorg-xinit yay zathura zathura-pdf-mupdf zip
+pacman -S --noconfirm alsa-utils base-devel cmus doas efibootmgr feh firefox grub intel-ucode krita ksh man-db mpv neomutt neovim networkmanager nitrogen nodejs openssh pdftk picom postgresql qutebrowser rtorrent rustup texlive-most tor wireshark xf86-video-intel xclip xdg-utils xorg xorg-xinit yay zathura zathura-pdf-mupdf zip
 
 yay -S --noconfirm lf qutebrowser reaper-bin vim-plug yt-dlp
 
@@ -38,20 +38,26 @@ mkdir /home/mike/bin/
 # run make
 # run make install
 
-cp ./dmenu/ /home/mike/bin/
-cp ./dwm/ /home/mike/bin/
-cp ./st/ /home/mike/bin/
+bin=/home/mike/bin
 
-cp ./config/.xinitrc /home/mike/.bashrc
-cp ./config/.bashrc /home/mike/.bashrc
-cp ./config/.bash_profile > /home/mike/.bash_profile
+cp -r ./dmenu/     $bin
+cp -r ./dwm/       $bin
+cp -r ./dwmblocks/ $bin 
+cp -r ./scripts/   $bin 
+cp -r ./st/        $bin
+mkdir              $bin/q
+
+ln -s $bin/scripts/* /usr/local/sbin
+
+cp ./rc/xinitrc /home/mike/.xinitrc
+cp ./rc/.kshrc /home/mike/.kshrc
 
 mkdir /home/mike/.config
 cp -r ./config/nvim/ /home/mike/.config
 cp -r ./config/qutebrowser/ /home/mike/.config
 cp -r ./config/systemd/ /home/mike/.config
 
-mkdir /home/mike/doc/ /home/mike/img/ /home/mike/music/ /home/mike/video/ /home/mike/vimwiki/ /home/mike/workspace/
+mkdir /home/mike/doc/ /home/mike/img/ /home/mike/music/ /home/mike/ogrrs/ /home/mike/video/ /home/mike/vimwiki/ /home/mike/workspace/
 
 xdg-settings set default-web-browser qutebrowser.desktop
 xdg-mime default qutebrowser.desktop x-scheme-handler/https x-scheme-handler/http
