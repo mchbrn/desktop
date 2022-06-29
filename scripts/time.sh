@@ -1,1 +1,4 @@
-/home/mike/bin/scripts/time.sh
+#!/bin/ksh
+
+time=$(date '+%H:%M')
+print $time
