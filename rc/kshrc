@@ -17,7 +17,7 @@ export HISTFILE=/home/mike/.ksh_history
 export HISTFILESIZE=1000
 export HISTSIZE=1000
 
-alias q='rlwrap q'
+alias ls='ls --color=auto'
 alias mail=neomutt
+alias q='rlwrap q'
 alias vim=nvim
-
