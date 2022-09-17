@@ -13,7 +13,7 @@ export FCEDIT=vi
 export HISTCMD=864
 export HISTCONTROL=ignoredups
 export HISTEDIT=vi
-export HISTFILE=/home/mark/.ksh_history
+export HISTFILE=/home/mike/.ksh_history
 export HISTFILESIZE=1000
 export HISTSIZE=1000
 
