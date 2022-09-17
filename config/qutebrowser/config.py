@@ -4,6 +4,8 @@ c.url.searchengines = {"DEFAULT": "google.com/search?q={}"}
 c.url.start_pages = ["google.com"]
 config.load_autoconfig(False)
 
+config.bind('<Ctrl-Shift-f>', 'hint links spawn --detach mpv --force-window yes {hint-url}')
+
 # define colour variables
 black      = "#282828"
 grey_bg    = "#7c6f64"

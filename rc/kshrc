@@ -10,3 +10,5 @@ export EDITOR=nvim
 export TERM=st
 
 alias q='rlwrap q'
+alias mail=neomutt
+alias vim=nvim
