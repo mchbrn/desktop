@@ -8,7 +8,16 @@ PS1="[1;33;48m[[1;36;48mmike[0;0m[1;33;48m@[0;0m[1;32;48mthinkpad[1;33;48
 export BROWSER=qutebrowser
 export EDITOR=nvim
 export TERM=st
+export ENV=/home/mike/.kshrc
+export FCEDIT=vi
+export HISTCMD=864
+export HISTCONTROL=ignoredups
+export HISTEDIT=vi
+export HISTFILE=/home/mark/.ksh_history
+export HISTFILESIZE=1000
+export HISTSIZE=1000
 
 alias q='rlwrap q'
 alias mail=neomutt
 alias vim=nvim
+
