@@ -6,6 +6,8 @@ Source code, configs and install scripts for my system. The aesthetic for this r
 
 Following a base install of Arch Linux and chrooting into /mnt, running `./install` builds my entire system.
 
+![the system](the_system.gif)
+
 ## programs
 
 - compositor: picom
@@ -21,5 +23,3 @@ Following a base install of Arch Linux and chrooting into /mnt, running `./insta
 - video player: mpv
 - web browser: qutebrowser
 - window manager: dwm
-
-![the system](the_system.gif)
