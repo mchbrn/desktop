@@ -1,5 +1,5 @@
 call plug#begin('~/.config/nvim/plugged')
-Plug 'vimwiki/vimwiki'
+    Plug 'vimwiki/vimwiki'
 call plug#end()
 
 " VimWiki settings
@@ -37,3 +37,7 @@ augroup END
 let g:NetrwIsOpen       = 0
 
 :command T Lexplore
+
+hi WinSeparator ctermbg=Black ctermfg=DarkCyan
+hi StatusLine   ctermbg=Black ctermfg=DarkCyan
+hi StatusLineNC ctermbg=Black ctermfg=DarkCyan

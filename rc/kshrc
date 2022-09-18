@@ -21,3 +21,5 @@ alias ls='ls --color=auto'
 alias mail=neomutt
 alias q='rlwrap q'
 alias vim=nvim
+
+. "$HOME/.cargo/env"
