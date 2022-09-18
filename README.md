@@ -21,3 +21,5 @@ Following a base install of Arch Linux and chrooting into /mnt, running `./insta
 - video player: mpv
 - web browser: qutebrowser
 - window manager: dwm
+
+![the system](the_system.gif)
