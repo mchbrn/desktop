@@ -3,8 +3,6 @@
 set -o vi
 setxkbmap gb
 
-PS1="[1;33;48m[[1;36;48mmike[0;0m[1;33;48m@[0;0m[1;32;48mthinkpad[1;33;48m][0;0m "
-
 export BROWSER=qutebrowser
 export EDITOR=nvim
 export TERM=st
@@ -17,9 +15,63 @@ export HISTFILE=/home/mike/.ksh_history
 export HISTFILESIZE=1000
 export HISTSIZE=1000
 
+alias citrix=/opt/Citrix/ICAClient/selfservice
 alias ls='ls --color=auto'
 alias mail=neomutt
 alias q='rlwrap q'
 alias vim=nvim
 
 . "$HOME/.cargo/env"
+
+function git_status {
+    status=$(git status)
+
+    unstaged=$(echo $status | grep "Changes not staged for commit:")
+    staged=$(echo $status | grep "Changes to be committed:")
+    ahead=$(echo $status | grep "Your branch is ahead")
+    newfile=$(echo $status | grep "new file:")
+    deleted=$(echo $status | grep "deleted:")
+    untracked=$(echo $status | grep "Untracked files:")
+
+    icons=""
+
+    if [[ -n $unstaged ]]; then
+        icons="○$icons"
+    fi
+    if [[ -n $staged ]]; then
+        icons="●$icons"
+    fi
+    if [[ -n $untracked ]]; then
+        icons="x$icons"
+    fi
+    if [[ -n $deleted ]]; then
+        icons="-$icons"
+    fi
+    if [[ -n $newfile ]]; then
+        icons="+$icons"
+    fi
+    if [[ -n $ahead ]]; then
+        icons=">$icons"
+    fi
+
+    echo $icons
+}
+
+function git_branch {
+    branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+
+    if [[ -n $branch ]]; then
+        icons=$(git_status)
+        if [[ -n $icons ]]; then
+            echo " → [$branch $icons]"
+        else
+            echo " → [$branch]"
+        fi
+    else
+        echo ""
+    fi
+}
+
+export PS1="
+$(tput setaf 5)[$(tput setaf 6)$USER$(tput setaf 5)@$(tput setaf 6)thinkpad$(tput setaf 5)]$(tput setaf 5) in $(tput setaf 5)[$(tput setaf 6) \${PWD} $(tput setaf 5)]$(tput setaf 5)$(tput bold)$(tput setaf 5)"'$(git_branch)'"
+$(tput setaf 5)└──> $(tput setaf 6)λ $(tput sgr0)"

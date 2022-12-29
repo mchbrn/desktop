@@ -6,7 +6,6 @@ call plug#end()
 set nocompatible
 filetype plugin on
 syntax on
-colorscheme peachpuff
 
 set number relativenumber
 
@@ -19,6 +18,11 @@ vnoremap <C-C> :w !xclip -i -sel c<CR><CR>
 
 " Copy between open files in vim
 set clipboard+=unnamedplus
+
+" q syntax highlighting settings
+hi Special ctermfg=red " for query specific keywords
+hi Underlined ctermfg=magenta cterm=bold " for local variables
+set tags=tags;
 
 " Netrw settings
 let g:netrw_banner      = 0
