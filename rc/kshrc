@@ -26,33 +26,21 @@ alias vim=nvim
 function git_status {
     status=$(git status)
 
-    unstaged=$(echo $status | grep "Changes not staged for commit:")
-    staged=$(echo $status | grep "Changes to be committed:")
+    behind=$(echo $status | grep "Your branch is behind")
     ahead=$(echo $status | grep "Your branch is ahead")
-    newfile=$(echo $status | grep "new file:")
-    deleted=$(echo $status | grep "deleted:")
     untracked=$(echo $status | grep "Untracked files:")
+    changed=$(echo $status | grep "modified:")
+    deleted=$(echo $status | grep "deleted:")
+    newfile=$(echo $status | grep "new file:")
 
     icons=""
 
-    if [[ -n $unstaged ]]; then
-        icons="○$icons"
-    fi
-    if [[ -n $staged ]]; then
-        icons="●$icons"
-    fi
-    if [[ -n $untracked ]]; then
-        icons="x$icons"
-    fi
-    if [[ -n $deleted ]]; then
-        icons="-$icons"
-    fi
-    if [[ -n $newfile ]]; then
-        icons="+$icons"
-    fi
-    if [[ -n $ahead ]]; then
-        icons=">$icons"
-    fi
+    [[ -n $untracked ]] && icons="x$icons"
+    [[ -n $changed ]] && icons="Δ$icons"
+    [[ -n $deleted ]] && icons="-$icons"
+    [[ -n $newfile ]] && icons="+$icons"
+    [[ -n $behind ]] && icons="<$icons"
+    [[ -n $ahead ]] && icons=">$icons"
 
     echo $icons
 }
