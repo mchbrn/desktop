@@ -36,11 +36,11 @@ function git_status {
     icons=""
 
     [[ -n $untracked ]] && icons="x$icons"
-    [[ -n $changed ]] && icons="Δ$icons"
-    [[ -n $deleted ]] && icons="-$icons"
-    [[ -n $newfile ]] && icons="+$icons"
-    [[ -n $behind ]] && icons="<$icons"
-    [[ -n $ahead ]] && icons=">$icons"
+    [[ -n $changed ]]   && icons="Δ$icons"
+    [[ -n $deleted ]]   && icons="-$icons"
+    [[ -n $newfile ]]   && icons="+$icons"
+    [[ -n $behind ]]    && icons="<$icons"
+    [[ -n $ahead ]]     && icons=">$icons"
 
     echo $icons
 }
@@ -48,16 +48,13 @@ function git_status {
 function git_branch {
     branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
 
-    if [[ -n $branch ]]; then
-        icons=$(git_status)
-        if [[ -n $icons ]]; then
-            echo " → [$branch $icons]"
-        else
-            echo " → [$branch]"
-        fi
-    else
-        echo ""
-    fi
+    [[ -n $branch ]] && ( 
+        icons=$(git_status) && 
+        [[ -n $icons ]] && 
+            echo " → [$branch $icons]" || 
+            echo " → [$branch]" 
+    ) || 
+    echo ""
 }
 
 export PS1="
