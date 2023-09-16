@@ -1,84 +1,94 @@
 #!/bin/sh
 
-# assumes you have chrooted into /mnt
+# assumes you have chrooted into /mnt and cloned repo to /home/mike/workspace
 
-ln -sf /usr/share/zoneinfo/Eire /etc/localtime
+echo "Setting local time"
+ln -sf /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime
+echo "Generating /etc/adjtime"
 hwclock --systohc
 
+echo "Generating locales"
 sed -i 's/#en_IE.UTF-8 UTF-8/en_IE.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
+echo "Creating locale.conf"
 echo "LANG=en_IE.UTF-8" > /etc/locale.conf
+
+echo "Persisting console keyboard layout"
 echo "KEYMAP=uk" > /etc/vconsole.conf
+
+echo "Setting hostname"
 echo "thinkpad" > /etc/hostname
+echo "Setting network config"
 echo -e "127.0.0.1\t\tlocalhost\n::1\t\t\tlocalhost\n127.0.1.1\t\tthinkpad" > /etc/hosts
 
-pacman -S --noconfirm alsa-utils base-devel cmus doas efibootmgr feh firefox grub intel-ucode krita ksh man-db mpv neomutt neovim networkmanager nitrogen nodejs openssh pdftk picom postgresql qutebrowser rtorrent rustup texlive-most tor wireshark xf86-video-intel xclip xdg-utils xorg xorg-xinit yay zathura zathura-pdf-mupdf zip
+echo "Installing pacman packages"
+pacman -S --noconfirm alsa-utils ardour base-devel cmus doas dosfstools efibootmgr feh git grub intel-ucode krita ksh man-db mpv mtools neomutt neovim networkmanager nitrogen openssh os-prober picom qutebrowser rtorrent tor xf86-video-intel xclip xdg-utils xorg xorg-xinit zathura zathura-pdf-mupdf zig zip
 
-yay -S --noconfirm lf qutebrowser reaper-bin vim-plug yt-dlp
-
+echo "Enabling NetworkManager"
 systemctl enable NetworkManager
 
+echo "Set root password"
 passwd
 
-mkdir /boot/efi/
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+"Creating mike user"
+useradd -G wheel,audio,video,storage,ftp,http,rfkill,uucp -s /bin/ksh mike
+"Set mike password"
+passwd mike
+
+"Mounting /dev/sda1 to /boot/efi"
+mount --mkdir /dev/sda1 /boot/efi
+"Installing grub"
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
+"Making grub config"
 grub-mkconfig -o /boot/grub/grub.cfg
 
-useradd -m -G wheel,ftp,http,rfkill,uucp -s /bin/ksh mike,rfkill,uucp -s /bin/ksh mike
-
 echo -e 'permit persist :wheel\n' > /etc/doas.conf
-chown -c root:root /etc/doas.conf
 chmod -c 0400 /etc/doas.conf
 
-cp config/fehbg /home/mike/.fehbg
+echo "Linking bin and config directories"
+# make symlinks for files and nested directories recursively
+makeLinks () {
+    local source=$1
+    local target=$2
+    local dirs=$3
 
-mkdir /home/mike/bin/
+    for dir in $dirs; do
+        mkdir -p $target/$dir &&
+        files=$(ls $source/$dir)
+        for file in $files; do
+            if [[ -d $source/$dir/$file ]]; then
+                makeLinks $source/$dir $target/$dir $(ls $source/$dir)
+            else
+                ln $source/$dir/$file $target/$dir/$file
+            fi
+        done
+    done        
+}
 
-# setup symlinks to originals
-# run make
-# run make install
+$home=/home/mike
+$path=$home/workspace/system
 
-bin=/home/mike/bin
+bin=$(ls -l $path | grep "^[d]" | awk '{print $9}' | grep -Ev '(config|rc|scripts)')
+makeLinks $path $home/bin "${bin[@]}"
 
-cp -r ./dmenu/     $bin
-cp -r ./dwm/       $bin
-cp -r ./dwmblocks/ $bin 
-cp -r ./scripts/   $bin 
-cp -r ./st/        $bin
-mkdir              $bin/q
+configs=$(ls -l $path/config | grep "^[d]" | awk '{print $9}')
+makeLinks $path/config $home/.config "${configs[@]}"
 
-ln -s $bin/scripts/* /usr/local/sbin
+ln $path/rc/.??* $home/
+ln $path/config/fehbg $home/.fehbg
+ln -s $path/scripts/* /usr/local/sbin
 
-cp ./rc/xinitrc /home/mike/.xinitrc
-cp ./rc/.kshrc /home/mike/.kshrc
+for dir in $(ls $home/bin); do
+    echo -e "\nInstalling" $dir "\n"
+    cd $dir
+    make
+    make install
+    cd ..
+done
 
-mkdir /home/mike/.config
-cp -r ./config/nvim/ /home/mike/.config
-cp -r ./config/qutebrowser/ /home/mike/.config
-cp -r ./config/systemd/ /home/mike/.config
+echo "Making home directories"
+mkdir $home/doc $home/img $home/music $home/ogrrs $home/video $home/vimwiki
 
-mkdir /home/mike/doc/ /home/mike/img/ /home/mike/music/ /home/mike/ogrrs/ /home/mike/video/ /home/mike/vimwiki/ /home/mike/workspace/
-
+echo "Setting default browser"
 xdg-settings set default-web-browser qutebrowser.desktop
 xdg-mime default qutebrowser.desktop x-scheme-handler/https x-scheme-handler/http
-
-cp /etc/X11/xinit/xinitrc /home/mike/.xinitrc
-
-# remove last five lines of .xinitrc
-sed -i 's/twm &//' /home/mike/.xinitrc
-sed -i 's/xclock -geometry 50x50-1+1 &//' /home/mike/.xinitrc
-sed -i 's/xterm -geometry 80x50+494+51 &//' /home/mike/.xinitrc
-sed -i 's/xterm -geometry 80x20+494-0 &//' /home/mike/.xinitrc
-sed -i 's/exec xterm -geometry 80x66+0+0 -name login//' /home/mike/.xinitrc
-
-echo -e 'nitrogen --restore &\npicome &\nexecdwm' >> .xinitrc
-
-echo 'set -o vi' >> .ksh.rc
-echo ' [[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1' >> .kshrc
-echo 'export TERM=st' >> .kshrc
-echo 'export EDITOR=nvim' >> .kshrc
-
-#chsh -s /bin/ksh
-
-rustup toolchain install stable
-rustup default stable
