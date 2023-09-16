@@ -36,9 +36,9 @@ useradd -G wheel,audio,video,storage,ftp,http,rfkill,uucp -s /bin/ksh mike
 passwd mike
 
 "Mounting /dev/sda1 to /boot/efi"
-mount --mkdir /dev/sda1 /boot/efi
+mount --mkdir /dev/sda1 /boot/EFI
 "Installing grub"
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
 "Making grub config"
 grub-mkconfig -o /boot/grub/grub.cfg
 
